@@ -1,0 +1,188 @@
+/* ===========================
+   全局样式
+=========================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Microsoft YaHei", sans-serif;
+    background: #f5f7fb;
+    color: #333;
+    overflow-x: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+/* ===========================
+   导航栏
+=========================== */
+.navbar-custom {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(10px);
+    transition: all .3s ease;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    color: #0d6efd !important;
+}
+
+.nav-link {
+    color: #444 !important;
+    font-weight: 500;
+    transition: .3s;
+}
+
+.nav-link:hover {
+    color: #0d6efd !important;
+}
+
+/* ===========================
+   Hero 头部（已删除搜索框样式）
+=========================== */
+.hero {
+    padding-top: 140px;
+    padding-bottom: 90px;
+    background: linear-gradient(135deg,#dbeafe 0%,#eef4ff 50%,#ffffff 100%);
+}
+
+.hero h1 {
+    font-size: 3rem;
+    color: #0d6efd;
+}
+
+.hero p {
+    color: #666;
+    font-size: 1.15rem;
+}
+
+/* ===========================
+   分类区域（移除手写border-radius、box-shadow，交由rounded-3 shadow-sm）
+=========================== */
+.category-card {
+    background: white;
+    padding: 35px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .35s;
+    height: 100%;
+}
+
+.category-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 40px rgba(13,110,253,.18) !important;
+}
+
+.category-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.category-card h4 {
+    margin-bottom: 15px;
+    color: #0d6efd;
+    font-weight: bold;
+}
+
+.category-card p {
+    color: #666;
+    margin-bottom: 0;
+}
+
+/* ===========================
+   推荐阅读（移除手写圆角阴影）
+=========================== */
+.recommend-section {
+    margin-top: 90px;
+    margin-bottom: 90px;
+}
+
+.recommend-card {
+    background: white;
+    transition: .3s;
+    height: 100%;
+}
+
+.recommend-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 35px rgba(0,0,0,.12) !important;
+}
+
+.recommend-card h5 {
+    color: #0d6efd;
+    margin-bottom: 15px;
+}
+
+.recommend-card p {
+    color: #666;
+    min-height: 72px;
+}
+
+/* ===========================
+   Footer
+=========================== */
+.footer {
+    background: white;
+    padding: 25px;
+    border-top: 1px solid #e5e5e5;
+    color: #666;
+}
+
+/* ===========================
+   入场动画
+=========================== */
+.category-card {
+    animation: fadeUp .6s ease;
+}
+
+.recommend-card {
+    animation: fadeUp .8s ease;
+}
+
+@keyframes fadeUp {
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ===========================
+   自定义滚动条
+=========================== */
+::-webkit-scrollbar{
+    width:10px;
+}
+::-webkit-scrollbar-thumb{
+    background:#0d6efd;
+    border-radius:10px;
+}
+::-webkit-scrollbar-track{
+    background:#edf2f7;
+}
+
+/* ===========================
+   响应式适配
+=========================== */
+@media(max-width:992px){
+    .hero h1{
+        font-size:2.3rem;
+    }
+}
+@media(max-width:768px){
+    .hero{
+        padding-top:110px;
+    }
+    .hero h1{
+        font-size:2rem;
+    }
+    .category-card{
+        padding:25px;
+    }
+}

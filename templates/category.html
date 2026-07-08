@@ -1,10 +1,310 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
+
 <head>
+
     <meta charset="UTF-8">
-    <title>Title</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ category_name }} - KnowledgeHub</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static',filename='css/category.css') }}">
+
 </head>
+
 <body>
 
+<!-- ================= Header ================= -->
+
+<header class="header">
+
+    <div class="logo">
+
+        <h2>KnowledgeHub</h2>
+
+        <span>AI 科普知识平台</span>
+
+    </div>
+
+    <div class="search-box">
+
+        <input
+                type="text"
+                placeholder="搜索知识...">
+
+    </div>
+
+    <div class="user-box">
+
+        <button id="backHome">
+
+            ← 首页
+
+        </button>
+
+    </div>
+
+</header>
+
+<!-- ================= Main ================= -->
+
+<div class="container">
+
+    <!-- ========= 左侧 ========= -->
+
+    <aside class="sidebar">
+
+        <div class="card">
+
+            <h3>
+
+                我的知识库
+
+            </h3>
+
+            <ul class="category-list">
+
+                <li>🔬 科学</li>
+
+                <li class="active">
+
+                    💻 科技
+
+                </li>
+
+                <li>📚 人文</li>
+
+                <li>🌍 社会</li>
+
+                <li>❤️ 健康</li>
+
+            </ul>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+
+                当前分类
+
+            </h3>
+
+            <div class="knowledge-list">
+
+                {% for item in knowledge_list %}
+
+                <div class="knowledge-item">
+
+                    <h4>
+
+                        {{ item.title }}
+
+                    </h4>
+
+                    <p>
+
+                        {{ item.description }}
+
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+
+                快捷功能
+
+            </h3>
+
+            <button>
+
+                ⭐ 收藏夹
+
+            </button>
+
+            <button>
+
+                📜 历史记录
+
+            </button>
+
+            <button>
+
+                ⚙ 设置
+
+            </button>
+
+        </div>
+
+    </aside>
+
+    <!-- ========= 中间 ========= -->
+
+    <main class="chat-panel">
+
+        <div class="chat-header">
+
+            <h3>
+
+                Conversation
+
+            </h3>
+
+        </div>
+
+        <div
+                id="chatHistory"
+                class="chat-history">
+
+            <div class="ai-message">
+
+                👋 欢迎来到
+
+                <strong>
+
+                    {{ category_name }}
+
+                </strong>
+
+                知识库。
+
+                请选择左侧知识，
+
+                或直接向 AI 提问。
+
+            </div>
+
+        </div>
+
+        <div class="chat-input">
+
+            <textarea
+
+                    id="questionInput"
+
+                    placeholder="输入你的问题..."></textarea>
+
+            <button
+
+                    id="sendQuestion">
+
+                发送
+
+            </button>
+
+        </div>
+
+    </main>
+
+    <!-- ========= 右侧 ========= -->
+
+    <aside class="insight-panel">
+
+        <div class="card">
+
+            <h3>
+
+                Summary
+
+            </h3>
+
+            <div id="summaryBox">
+
+                当前暂无总结。
+
+                点击生成即可获得 AI 总结。
+
+            </div>
+
+            <button id="summaryBtn">
+
+                ✨ 生成总结
+
+            </button>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+
+                Keywords
+
+            </h3>
+
+            <div class="tag-box">
+
+                <span>Transformer</span>
+
+                <span>Attention</span>
+
+                <span>Python</span>
+
+                <span>LLM</span>
+
+                <span>RAG</span>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+
+                推荐阅读
+
+            </h3>
+
+            <ul>
+
+                <li>Attention Is All You Need</li>
+
+                <li>BERT</li>
+
+                <li>GPT 系列</li>
+
+                <li>AI Agent</li>
+
+            </ul>
+
+        </div>
+
+    </aside>
+
+</div>
+
+<!-- ================= Footer ================= -->
+
+<footer>
+
+    © 2026 KnowledgeHub
+
+</footer>
+
+<!-- Flask传值 -->
+
+<input
+        type="hidden"
+        id="categoryName"
+        value="{{ category_name }}">
+
+<script
+        src="{{ url_for('static',filename='js/category.js') }}">
+
+</script>
+
 </body>
+
 </html>

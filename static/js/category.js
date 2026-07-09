@@ -4,28 +4,23 @@
    第一阶段演示版
 ========================================================== */
 
-// ===================== 获取元素 =====================
+/* ---------- DOM ---------- */
 
-const backHome = document.getElementById("backHome");
-const chatHistory = document.getElementById("chatHistory");
-const questionInput = document.getElementById("questionInput");
-const sendQuestion = document.getElementById("sendQuestion");
-const summaryBtn = document.getElementById("summaryBtn");
-const summaryBox = document.getElementById("summaryBox");
+const backHome=document.getElementById("backHome");
 
+const chatHistory=document.getElementById("chatHistory");
 
-// ===================== 返回首页 =====================
+const questionInput=document.getElementById("questionInput");
 
-backHome.addEventListener("click", () => {
+const sendQuestion=document.getElementById("sendQuestion");
 
-    window.location.href = "/";
+const summaryBtn=document.getElementById("summaryBtn");
 
-});
+const summaryBox=document.getElementById("summaryBox");
 
+/* ---------- 模拟数据库 ---------- */
 
-// ===================== 模拟知识库 =====================
-
-const knowledgeData = {
+const knowledgeData={
 
     "Transformer":{
 
@@ -39,7 +34,7 @@ const knowledgeData = {
 
         summary:"Python 是一种解释型语言，拥有丰富的第三方库，非常适合 AI 开发。",
 
-        answer:"Python 由于语法简单、生态完善，因此成为人工智能领域最常用的语言。"
+        answer:"Python 是目前人工智能领域使用最广泛的开发语言。"
 
     },
 
@@ -47,48 +42,109 @@ const knowledgeData = {
 
         summary:"AI Agent 可以自主规划任务、调用工具并完成复杂目标。",
 
-        answer:"AI Agent 不只是聊天，它还能自动执行任务、搜索信息、调用 API。"
+        answer:"AI Agent 不只是聊天，还能够调用工具完成复杂任务。"
 
     },
 
     "RAG":{
 
-        summary:"RAG（Retrieval-Augmented Generation）是一种结合知识库检索的大模型技术。",
+        summary:"RAG 是检索增强生成技术。",
 
-        answer:"RAG 不需要重新训练模型，而是在回答问题前先查询知识库。"
+        answer:"RAG 会先查询知识库，再生成回答，因此更加准确。"
 
     },
 
     "LLM":{
 
-        summary:"LLM（Large Language Model）即大语言模型。",
+        summary:"LLM 即 Large Language Model。",
 
-        answer:"LLM 能够完成问答、总结、翻译、代码生成等任务。"
+        answer:"LLM 可以完成问答、总结、翻译、代码生成等任务。"
 
     }
 
 };
 
+/* ---------- 初始化 ---------- */
 
-// ===================== 点击左侧知识 =====================
+document.addEventListener("DOMContentLoaded",()=>{
 
-const knowledgeItems=document.querySelectorAll(".knowledge-item");
+    bindEvent();
 
-knowledgeItems.forEach(item=>{
+    bindKnowledge();
 
-    item.addEventListener("click",()=>{
+});
 
-        knowledgeItems.forEach(i=>i.style.borderColor="#edf1f7");
+/* ---------- 注册事件 ---------- */
 
-        item.style.borderColor="#2962ff";
+function bindEvent(){
 
-        const title=item.querySelector("h4").innerText;
+    backHome.addEventListener("click",goHome);
 
-        const data=knowledgeData[title];
+    sendQuestion.addEventListener("click",sendMessage);
 
-        if(!data)return;
+    summaryBtn.addEventListener("click",generateSummary);
 
-        chatHistory.innerHTML=`
+    questionInput.addEventListener("keydown",(e)=>{
+
+        if(e.key==="Enter"&&!e.shiftKey){
+
+            e.preventDefault();
+
+            sendMessage();
+
+        }
+
+    });
+
+}
+
+/* ---------- 返回首页 ---------- */
+
+function goHome(){
+
+    window.location.href="/";
+
+}
+
+/* ---------- 左侧知识 ---------- */
+
+function bindKnowledge(){
+
+    const items=document.querySelectorAll(".knowledge-item");
+
+    items.forEach(item=>{
+
+        item.addEventListener("click",()=>{
+
+            items.forEach(i=>{
+
+                i.style.borderColor="#edf1f7";
+
+            });
+
+            item.style.borderColor="#2962ff";
+
+            loadKnowledge(
+
+                item.querySelector("h4").innerText
+
+            );
+
+        });
+
+    });
+
+}
+
+/* ---------- 加载知识 ---------- */
+
+function loadKnowledge(title){
+
+    const data=knowledgeData[title];
+
+    if(!data)return;
+
+    chatHistory.innerHTML=`
 
 <div class="ai-message">
 
@@ -102,30 +158,11 @@ ${data.answer}
 
 `;
 
-        summaryBox.innerHTML=data.summary;
+    summaryBox.innerHTML=data.summary;
 
-    });
+}
 
-});
-
-
-// ===================== AI聊天 =====================
-
-sendQuestion.addEventListener("click",sendMessage);
-
-
-questionInput.addEventListener("keydown",(e)=>{
-
-    if(e.key==="Enter"&&!e.shiftKey){
-
-        e.preventDefault();
-
-        sendMessage();
-
-    }
-
-});
-
+/* ---------- 发送消息 ---------- */
 
 function sendMessage(){
 
@@ -173,51 +210,39 @@ ${answer}
 
 }
 
-
-// ===================== 模拟AI回答 =====================
+/* ---------- 模拟AI ---------- */
 
 function simulateAnswer(question){
 
     const q=question.toLowerCase();
 
-    if(q.includes("transformer")){
+    if(q.includes("transformer"))
 
         return knowledgeData["Transformer"].answer;
 
-    }
-
-    if(q.includes("python")){
+    if(q.includes("python"))
 
         return knowledgeData["Python"].answer;
 
-    }
-
-    if(q.includes("agent")){
+    if(q.includes("agent"))
 
         return knowledgeData["AI Agent"].answer;
 
-    }
-
-    if(q.includes("rag")){
+    if(q.includes("rag"))
 
         return knowledgeData["RAG"].answer;
 
-    }
-
-    if(q.includes("llm")){
+    if(q.includes("llm"))
 
         return knowledgeData["LLM"].answer;
-
-    }
 
     return "这是第一阶段演示版本。\n\n第二阶段这里将调用 Flask 后端，再由 DeepSeek API 返回真实答案。";
 
 }
 
+/* ---------- AI总结 ---------- */
 
-// ===================== AI总结 =====================
-
-summaryBtn.addEventListener("click",()=>{
+function generateSummary(){
 
     summaryBox.innerHTML=`
 
@@ -235,23 +260,16 @@ summaryBtn.addEventListener("click",()=>{
 
 <li>连接 DeepSeek API</li>
 
+<li>连接 MySQL</li>
+
 <li>自动总结聊天内容</li>
 
-<li>提取关键词</li>
+<li>生成关键词</li>
 
-<li>生成推荐阅读</li>
+<li>推荐阅读</li>
 
 </ul>
 
 `;
 
-});
-
-
-// ===================== 页面初始化 =====================
-
-window.onload=()=>{
-
-    console.log("KnowledgeHub 启动成功");
-
-};
+}

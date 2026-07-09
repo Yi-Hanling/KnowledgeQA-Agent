@@ -1,0 +1,27 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+KnowledgeHub
+{% endblock %}
+
+{% block css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/index.css') }}">
+
+{% endblock %}
+
+{% block content %}
+
+{% include "components/hero.html" %}
+
+{% endblock %}
+
+{% block js %}
+
+<script
+    src="{{ url_for('static', filename='js/index.js') }}">
+</script>
+
+{% endblock %}

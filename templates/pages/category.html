@@ -1,0 +1,53 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+
+{{ category_name }} - KnowledgeHub
+
+{% endblock %}
+
+{% block css %}
+
+<link rel="stylesheet"
+      href="{{ url_for('static',filename='css/category.css') }}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <!-- 左侧 -->
+
+    {% include "components/sidebar.html" %}
+
+    <!-- 中间聊天 -->
+
+    {% include "components/article_card.html" %}
+
+    <!-- 右侧 -->
+
+    <aside class="insight-panel">
+
+        {% include "components/summary_panel.html" %}
+
+        {% include "components/keyword_panel.html" %}
+
+        {% include "components/recommend_panel.html" %}
+
+    </aside>
+
+</div>
+
+<input
+        type="hidden"
+        id="categoryName"
+        value="{{ category_name }}">
+
+{% endblock %}
+
+{% block js %}
+
+<script src="{{ url_for('static',filename='js/category.js') }}"></script>
+
+{% endblock %}

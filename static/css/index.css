@@ -1,119 +1,534 @@
-/* ===========================
-   首页 Hero
-=========================== */
+/* =====================================================
+   KnowledgeHub
+   index.css
+   首页蓝白科技风
+===================================================== */
+
+
+/* ================= 页面 ================= */
+
+
+body{
+
+    background:#f8fafc;
+
+}
+
+
+
+/* ================= Hero ================= */
+
 
 .hero{
+
+
+    min-height:
+
+    calc(100vh - 115px);
+
+
 
     display:flex;
 
+
     align-items:center;
+
 
     justify-content:center;
 
-    min-height:80vh;
 
-    background:linear-gradient(
-        180deg,
-        #f8fbff 0%,
-        #eef5ff 100%
+
+    background:
+
+
+    linear-gradient(
+
+        135deg,
+
+        #eef6ff,
+
+        #ffffff
+
     );
 
-}
 
-.hero .container{
 
-    max-width:900px;
+    position:relative;
 
-}
 
-.hero h1{
+    overflow:hidden;
 
-    font-size:64px;
 
-    font-weight:700;
-
-    color:#1f2937;
 
 }
 
-.hero p{
 
-    font-size:20px;
 
-    color:#6b7280;
+/* ================= 背景光圈 ================= */
 
-    line-height:1.8;
 
-}
 
-.hero .btn{
+.hero::before{
 
-    margin-top:35px;
-
-    padding:15px 50px;
-
-    font-size:20px;
-
-    border-radius:14px;
-
-    transition:.3s;
-
-}
-
-.hero .btn:hover{
-
-    transform:translateY(-3px);
-
-    box-shadow:0 10px 25px rgba(13,110,253,.25);
-
-}
-
-.hero::after{
 
     content:"";
 
-    display:block;
 
-    width:120px;
+    position:absolute;
 
-    height:4px;
 
-    background:#0d6efd;
+    width:520px;
 
-    margin:45px auto 0;
 
-    border-radius:5px;
+    height:520px;
+
+
+
+    background:#dbeafe;
+
+
+
+    border-radius:50%;
+
+
+
+    right:-180px;
+
+
+
+    top:-160px;
+
+
+
+    opacity:.7;
+
+
+
+    filter:blur(5px);
+
+
 
 }
 
-/* ===========================
-   响应式
-=========================== */
 
-@media(max-width:768px){
 
-.hero{
 
-    min-height:70vh;
+.hero::after{
+
+
+    content:"";
+
+
+    position:absolute;
+
+
+    width:350px;
+
+
+    height:350px;
+
+
+
+    background:#bfdbfe;
+
+
+
+    border-radius:50%;
+
+
+
+    left:-120px;
+
+
+
+    bottom:-120px;
+
+
+
+    opacity:.4;
+
+
+
+    filter:blur(5px);
+
+
 
 }
 
-.hero h1{
 
-    font-size:42px;
 
-}
+/* ================= 内容 ================= */
 
-.hero p{
 
-    font-size:17px;
+.hero-container{
 
-}
-
-.hero .btn{
 
     width:100%;
 
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+
 }
+
+
+
+.hero-content{
+
+
+    width:900px;
+
+
+    max-width:90%;
+
+
+
+    text-align:center;
+
+
+
+    position:relative;
+
+
+    z-index:2;
+
+
+
+    animation:
+
+    fadeIn .8s ease;
+
+
+
+}
+
+
+
+/* ================= 标签 ================= */
+
+
+
+.hero-tag{
+
+
+    display:inline-block;
+
+
+
+    padding:
+
+    8px 22px;
+
+
+
+    border-radius:30px;
+
+
+
+    background:#dbeafe;
+
+
+
+    color:#2563eb;
+
+
+
+    font-size:14px;
+
+
+
+    font-weight:600;
+
+
+
+    margin-bottom:30px;
+
+
+
+}
+
+
+
+
+/* ================= 标题 ================= */
+
+
+.hero h1{
+
+
+    font-size:76px;
+
+
+
+    font-weight:800;
+
+
+
+    letter-spacing:3px;
+
+
+
+    color:#111827;
+
+
+
+    margin-bottom:30px;
+
+
+
+}
+
+
+
+.hero h1 span{
+
+
+    color:#2563eb;
+
+
+
+}
+
+
+
+
+/* ================= 描述 ================= */
+
+
+.hero p{
+
+
+    font-size:20px;
+
+
+
+    line-height:1.9;
+
+
+
+    color:#64748b;
+
+
+
+    margin-bottom:0;
+
+
+
+}
+
+
+
+
+
+/* ================= 按钮 ================= */
+
+
+.hero-buttons{
+
+
+    margin-top:45px;
+
+
+
+    display:flex;
+
+
+
+    justify-content:center;
+
+
+
+}
+
+
+
+
+.hero-primary{
+
+
+    display:inline-block;
+
+
+
+    padding:
+
+    16px 60px;
+
+
+
+    background:#2563eb;
+
+
+
+    color:white;
+
+
+
+    border-radius:14px;
+
+
+
+    font-size:18px;
+
+
+
+    font-weight:600;
+
+
+
+    text-decoration:none;
+
+
+
+    box-shadow:
+
+
+    0 15px 35px
+
+    rgba(37,99,235,.3);
+
+
+
+    transition:.3s;
+
+
+
+}
+
+
+
+.hero-primary:hover{
+
+
+    background:#1d4ed8;
+
+
+
+    color:white;
+
+
+
+    transform:
+
+    translateY(-5px);
+
+
+
+    box-shadow:
+
+
+    0 20px 40px
+
+    rgba(37,99,235,.35);
+
+
+
+}
+
+
+
+/* ================= 动画 ================= */
+
+
+@keyframes fadeIn{
+
+
+    from{
+
+
+        opacity:0;
+
+
+        transform:
+
+        translateY(30px);
+
+
+
+    }
+
+
+    to{
+
+
+        opacity:1;
+
+
+        transform:
+
+        translateY(0);
+
+
+
+    }
+
+
+}
+
+
+
+
+/* ================= 响应式 ================= */
+
+
+@media(max-width:900px){
+
+
+    .hero h1{
+
+
+        font-size:55px;
+
+
+
+    }
+
+
+}
+
+
+
+@media(max-width:600px){
+
+
+    .hero h1{
+
+
+        font-size:42px;
+
+
+
+    }
+
+
+
+    .hero p{
+
+
+        font-size:16px;
+
+
+
+    }
+
+
+
+    .hero-primary{
+
+
+        width:80%;
+
+
+        text-align:center;
+
+
+
+    }
+
+
 
 }

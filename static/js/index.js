@@ -1,21 +1,18 @@
 /*
-==========================
-首页
-==========================
+ KnowledgeHub
+ index.js
+ 首页交互
 */
 
-document.addEventListener("DOMContentLoaded", () => {
 
-    const startButton = document.querySelector(".hero .btn");
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
 
-    if(startButton){
 
-        startButton.addEventListener("click", () => {
+console.log(
+"KnowledgeHub 首页加载成功"
+);
 
-            window.location.href="/category";
-
-        });
-
-    }
 
 });

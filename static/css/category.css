@@ -5,109 +5,228 @@
 ===================================================== */
 
 /* ---------- 输入区域 ---------- */
-
 .chat-input{
-
     border-top:1px solid #edf1f7;
-
     background:#fff;
-
     padding:20px;
-
     display:flex;
-
     flex-direction:column;
-
     gap:15px;
-
 }
 
 .chat-input textarea{
-
     width:100%;
-
     min-height:90px;
-
     max-height:180px;
-
     resize:vertical;
-
     border:1px solid #dfe6ef;
-
     border-radius:12px;
-
     padding:15px;
-
     background:#fafbfd;
-
     font-size:15px;
-
 }
 
 .chat-input textarea:focus{
-
     border-color:#2962ff;
-
     background:#fff;
-
     box-shadow:0 0 0 4px rgba(41,98,255,.08);
-
 }
 
 .chat-input button{
-
     align-self:flex-end;
-
     width:120px;
-
     height:42px;
-
     border-radius:10px;
-
     background:#2962ff;
-
     color:#fff;
-
     cursor:pointer;
-
     font-size:15px;
-
     font-weight:600;
-
 }
 
 .chat-input button:hover{
-
     background:#1e54ea;
-
     transform:translateY(-2px);
-
 }
 
 /* ---------- 页面动画 ---------- */
-
 .chat-panel{
-
     transition:.25s;
-
 }
 
 .chat-panel:hover{
-
     transform:translateY(-2px);
-
     box-shadow:0 10px 24px rgba(0,0,0,.06);
-
 }
 
 /* ---------- Mobile ---------- */
-
 @media(max-width:600px){
-
     .chat-input button{
-
         width:100%;
-
     }
+}
 
+.add-category-btn{
+    width:100%;
+    margin-top:10px;
+    padding:8px;
+    border:1px dashed #ccd0d8;
+    background:#fff;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+}
+.add-category-btn:hover{
+    background:#f5f7fa;
+}
+
+/* 分类条目布局 */
+.category-item {
+    padding:10px 12px;
+    border-radius:8px;
+    margin-bottom:6px;
+    cursor:pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap:10px;
+}
+.category-item.active{
+    background:#2563eb;
+    color:#fff;
+}
+.category-item:not(.active):hover{
+    background:#f1f5f9;
+}
+
+/* 删除按钮 */
+.category-delete-btn {
+    font-size: 11px;
+    padding: 3px 10px;
+    border: none;
+    border-radius: 4px;
+    background: #f5f5f5;
+    color: #e53935;
+    cursor: pointer;
+    display: none;
+    flex-shrink: 0;
+    height: fit-content !important;
+    line-height:1.2;
+    max-width: 70px;
+}
+.category-item:hover .category-delete-btn{
+    display:block;
+}
+.category-item.active .category-delete-btn{
+    background:rgba(255,255,255,0.25);
+    color:#fff;
+}
+.category-delete-btn:hover {
+    background: #ffebee;
+}
+.category-item.active .category-delete-btn:hover {
+    background: rgba(255,255,255,0.35);
+}
+
+/* ===== 原地编辑输入框样式 ===== */
+.category-item input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    outline: 2px solid #2563eb;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-size: inherit;
+    color: inherit;
+}
+.category-item.active input{
+    color:#ffffff;
+}
+.category-item input:focus{
+    outline: 2px solid #fff;
+}
+
+/* ===== 居中确认弹窗 ===== */
+.confirm-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.confirm-modal-box {
+    background: #fff;
+    width: 320px;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+.confirm-modal-text {
+    margin: 0 0 20px 0;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.5;
+}
+.confirm-modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+.confirm-modal-cancel,
+.confirm-modal-ok {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.confirm-modal-cancel {
+    background: #f5f5f5;
+    color: #666;
+}
+.confirm-modal-ok {
+    background: #e53935;
+    color: #fff;
+}
+.confirm-modal-cancel:hover {
+    background: #eeeeee;
+}
+.confirm-modal-ok:hover {
+    background: #d32f2f;
+}
+
+/* ==========【新增】聊天消息气泡自适应 ========== */
+#chatHistory{
+    padding:24px;
+    overflow-y:auto;
+}
+.user-message{
+    max-width: 65%;
+    width: fit-content;
+    margin-left: auto;
+    background-color: #2563eb;
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 12px 12px 2px 12px;
+    margin-bottom:12px;
+    line-height:1.5;
+    word-wrap: break-word;
+}
+.ai-message{
+    max-width: 80%;
+    width: fit-content;
+    margin-right: auto;
+    background-color: #f3f4f6;
+    color: #1f2937;
+    padding: 12px 16px;
+    border-radius: 12px 12px 12px 2px;
+    margin-bottom:12px;
+    line-height:1.5;
+    word-wrap: break-word;
 }

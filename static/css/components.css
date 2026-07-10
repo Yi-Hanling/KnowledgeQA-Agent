@@ -351,3 +351,35 @@
     padding-left:18px;
 
 }
+
+/* ---------- Navbar ---------- */
+
+.navbar .container{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+}
+
+
+/* 返回首页 */
+
+.back-home{
+
+    font-size:16px;
+
+    color:#2962ff;
+
+    text-decoration:none;
+
+}
+
+
+.back-home:hover{
+
+    color:#1e54ea;
+
+}

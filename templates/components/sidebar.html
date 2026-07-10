@@ -1,50 +1,37 @@
 <aside class="sidebar">
 
-    <!-- 我的知识库 -->
-
-    <div class="card">
-
-        <h3>我的知识库</h3>
-
-        <ul class="category-list">
-
-            <li>🔬 科学</li>
-
-            <li class="active">💻 科技</li>
-
-            <li>📚 人文</li>
-
-            <li>🌍 社会</li>
-
-            <li>❤️ 健康</li>
-
-        </ul>
-
+ <div class="card">
+    <h3>我的知识库</h3>
+    <div class="category-list" id="categoryList">
+        <!-- JS动态渲染分类 -->
     </div>
+    <!-- 添加分类按钮 -->
+     <button class="add-category-btn" id="addCategoryBtn" onclick="triggerAddCategory()">+ 添加新分类</button>
+</div>
 
-    <!-- 当前分类 -->
+<!--    &lt;!&ndash; 当前分类 &ndash;&gt;-->
 
-    <div class="card">
+<!--    <div class="card">-->
 
-        <h3>当前分类</h3>
+<!--        <h3>当前分类</h3>-->
 
-        <div class="knowledge-list">
+<!--        <div class="knowledge-list">-->
 
-            {% for item in knowledge_list %}
+<!--            {% for item in knowledge_list %}-->
 
-            <div class="knowledge-item">
+<!--            <div class="knowledge-item">-->
 
-                <h4>{{ item.title }}</h4>
+<!--                <h4>{{ item.title }}</h4>-->
 
-                <p>{{ item.description }}</p>
+<!--                <p>{{ item.description }}</p >-->
 
-            </div>
+<!--            </div>-->
 
-            {% endfor %}
+<!--            {% endfor %}-->
 
-        </div>
+<!--        </div>-->
 
-    </div>
+<!--    </div>-->
 
     <!-- 快捷功能 -->
 
@@ -53,8 +40,6 @@
         <h3>快捷功能</h3>
 
         <button>⭐ 收藏夹</button>
-
-        <button>📜 历史记录</button>
 
         <button>⚙ 设置</button>
 

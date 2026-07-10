@@ -1,116 +1,35 @@
-<nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+<nav class="navbar navbar-expand-lg bg-light">
 
 
     <div class="container">
 
 
-
         <!-- Logo -->
 
         <a
-
             class="navbar-brand"
+            href=" ">
 
+            9to5 AI Team
+
+        </a >
+
+
+
+        <!-- 第二页显示返回首页 -->
+
+        {% if request.path != "/" %}
+
+        <a
+            class="back-home"
             href="/">
 
-            KnowledgeHub
+            返回首页
 
-        </a>
+        </a >
 
+        {% endif %}
 
-
-
-        <button
-
-            class="navbar-toggler"
-
-            type="button"
-
-            data-bs-toggle="collapse"
-
-            data-bs-target="#navbarMenu">
-
-
-            <span class="navbar-toggler-icon"></span>
-
-
-        </button>
-
-
-
-
-
-        <div
-
-            class="collapse navbar-collapse"
-
-            id="navbarMenu">
-
-
-            <ul class="navbar-nav ms-auto">
-
-
-
-                <li class="nav-item">
-
-
-                    <a
-
-                        class="nav-link"
-
-                        href="/">
-
-                        首页
-
-                    </a>
-
-
-                </li>
-
-
-
-
-                <li class="nav-item">
-
-
-                    <a
-
-                        class="nav-link"
-
-                        href="/category">
-
-                        知识库
-
-                    </a>
-
-
-                </li>
-
-
-
-
-                <li class="nav-item">
-
-
-                    <a
-
-                        class="nav-link"
-
-                        href="/category">
-
-                        AI助手
-
-                    </a>
-
-
-                </li>
-
-
-
-            </ul>
-
-
-        </div>
 
 
     </div>

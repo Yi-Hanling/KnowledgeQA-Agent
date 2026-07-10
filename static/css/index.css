@@ -532,3 +532,14 @@ body{
 
 
 }
+
+.hero-logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+.hero-logo img {
+    height: 100px;   /* 按需调整高度 */
+    object-fit: contain;
+}

@@ -1,7 +1,18 @@
+import os
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
+
 class Config:
-    SECRET_KEY = "knowledgehub"
 
-    # 第一阶段先不用数据库也没关系
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:123456@localhost/knowledgehub"
+    # DeepSeek
+    DEEPSEEK_API_KEY = os.getenv(
+        "DEEPSEEK_API_KEY"
+    )
 
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    DEEPSEEK_BASE_URL = (
+        "https://api.deepseek.com"
+    )
+

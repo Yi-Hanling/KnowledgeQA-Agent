@@ -120,46 +120,100 @@ function loadCurrentCategoryChat() {
 }
 
 // 发送消息
-function sendMessage() {
+async function sendMessage() {
+
     if (!questionInput || !chatHistory) return;
+
+
     const question = questionInput.value.trim();
+
+
     if (question === "") {
+
         alert("请输入问题");
         return;
-    }
-    const activeId = getActiveId();
-    if(!activeId){
-        alert("请先选择一个分类！");
-        return;
+
     }
 
-    const chatData = getAllChatData();
-    if(!chatData[activeId]) chatData[activeId] = [];
-    chatData[activeId].push({type:"user", content:question});
-    saveAllChatData(chatData);
 
-    chatHistory.innerHTML += `<div class="user-message">${question}</div>`;
+    // 用户消息显示
+
+    chatHistory.innerHTML += `
+        <div class="user-message">
+            ${question}
+        </div>
+    `;
+
+
     questionInput.value = "";
-    chatHistory.scrollTop = chatHistory.scrollHeight;
 
-    setTimeout(() => {
-        const answer = simulateAnswer(question);
-        chatHistory.innerHTML += `<div class="ai-message">${answer}</div>`;
-        chatHistory.scrollTop = chatHistory.scrollHeight;
-        const data = getAllChatData();
-        data[activeId].push({type:"ai", content:answer});
-        saveAllChatData(data);
-    }, 600);
-}
 
-function simulateAnswer(question) {
-    const q = question.toLowerCase();
-    if (q.includes("transformer")) return knowledgeData["Transformer"].answer;
-    if (q.includes("python")) return knowledgeData["Python"].answer;
-    if (q.includes("agent")) return knowledgeData["AI Agent"].answer;
-    if (q.includes("rag")) return knowledgeData["RAG"].answer;
-    if (q.includes("llm")) return knowledgeData["LLM"].answer;
-    return "这是第一阶段演示版本。\n\n第二阶段这里将调用 Flask 后端，再由 DeepSeek API 返回真实答案。";
+    chatHistory.scrollTop =
+        chatHistory.scrollHeight;
+
+
+
+    try {
+
+
+        const response = await fetch(
+            "/api/chat",
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json"
+
+                },
+
+                body: JSON.stringify({
+
+                    question: question
+
+                })
+
+            }
+        );
+
+
+        const data = await response.json();
+
+
+
+        const answer = data.answer;
+
+
+
+        chatHistory.innerHTML += `
+            <div class="ai-message">
+                ${answer}
+            </div>
+        `;
+
+
+
+        chatHistory.scrollTop =
+            chatHistory.scrollHeight;
+
+
+
+    } catch(error) {
+
+
+        console.error(error);
+
+
+        chatHistory.innerHTML += `
+            <div class="ai-message">
+                AI连接失败
+            </div>
+        `;
+
+
+    }
+
 }
 
 function generateSummary() {

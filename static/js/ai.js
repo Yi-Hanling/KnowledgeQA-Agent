@@ -1,3 +1,14 @@
+/*
+KnowledgeHub
+ai.js
+
+功能：
+1. AI聊天
+2. 调用Flask API
+3. Markdown解析
+*/
+
+
 document.addEventListener(
     "DOMContentLoaded",
     function(){
@@ -16,10 +27,46 @@ document.addEventListener(
 
 
 
-        sendButton.onclick = async function(){
+        if(!sendButton || !questionInput || !chatHistory){
+            return;
+        }
 
 
-            let question =
+
+        // 点击发送
+
+        sendButton.onclick = sendMessage;
+
+
+
+        // Enter发送
+        questionInput.addEventListener(
+            "keydown",
+            function(e){
+
+
+                if(
+                    e.key === "Enter"
+                    &&
+                    !e.shiftKey
+                ){
+
+                    e.preventDefault();
+
+                    sendMessage();
+
+                }
+
+            }
+        );
+
+
+
+
+        async function sendMessage(){
+
+
+            const question =
                 questionInput.value.trim();
 
 
@@ -36,31 +83,35 @@ document.addEventListener(
 
             chatHistory.innerHTML += `
 
-                <div class="user-message">
+            <div class="user-message">
 
-                    ${question}
+                ${question}
 
-                </div>
-
-            `;
-
-
-
-            questionInput.value = "";
-
-
-
-            // 等待提示
-
-            chatHistory.innerHTML += `
-
-                <div class="ai-message">
-
-                    AI正在思考...
-
-                </div>
+            </div>
 
             `;
+
+
+
+            questionInput.value="";
+
+
+
+            // AI等待
+
+            const loading = document.createElement("div");
+
+            loading.className="ai-message";
+
+            loading.innerHTML="AI正在思考...";
+
+            chatHistory.appendChild(loading);
+
+
+
+            chatHistory.scrollTop =
+                chatHistory.scrollHeight;
+
 
 
 
@@ -68,13 +119,11 @@ document.addEventListener(
 
 
                 const response =
-
                     await fetch(
                         "/api/chat",
                         {
 
                             method:"POST",
-
 
                             headers:{
 
@@ -100,55 +149,70 @@ document.addEventListener(
 
 
 
-                // 删除等待提示
+                // 删除等待
 
-                chatHistory.lastElementChild.remove();
+                loading.remove();
 
 
 
-                // 显示AI回答
+                const answer =
+                    data.answer;
+
+
+
+                // Markdown解析
+
+                const htmlAnswer =
+                    marked.parse(answer);
+
+
+
 
                 chatHistory.innerHTML += `
 
-                    <div class="ai-message">
+                <div class="ai-message">
 
-                        ${data.answer}
+                    ${htmlAnswer}
 
-                    </div>
+                </div>
 
                 `;
 
 
-
-                // 自动滚动到底部
 
                 chatHistory.scrollTop =
                     chatHistory.scrollHeight;
 
 
-
             }
+
+
+
             catch(error){
+
+
+                loading.remove();
+
 
 
                 chatHistory.innerHTML += `
 
-                    <div class="ai-message">
+                <div class="ai-message">
 
-                        AI连接失败
+                    AI连接失败
 
-                    </div>
+                </div>
 
                 `;
 
 
-                console.log(error);
+                console.error(error);
 
 
             }
 
 
-        };
+        }
 
 
     }

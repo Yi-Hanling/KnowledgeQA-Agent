@@ -550,15 +550,7 @@ function loadCategoryChat(name){
 
 
 
-
-
-// =========================
-// 知识卡片
-// =========================
-
-
 function bindKnowledge(){
-
 
 
     const items =
@@ -567,41 +559,16 @@ function bindKnowledge(){
         );
 
 
-
     items.forEach(item=>{
 
 
         item.onclick=function(){
 
 
-            const title =
-                item.innerText;
-
-
-
-            if(summaryBox){
-
-
-                summaryBox.innerHTML = `
-
-
-                <h4>
-
-                ${title}
-
-                </h4>
-
-
-                <br>
-
-
-                当前知识内容摘要。
-
-
-                `;
-
-
-            }
+            console.log(
+                "当前选择知识:",
+                item.innerText
+            );
 
 
         };

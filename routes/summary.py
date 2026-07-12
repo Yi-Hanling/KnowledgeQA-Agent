@@ -1,4 +1,7 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
+
+from service.ai_service import generate_summary
+
 
 summary_bp = Blueprint(
     "summary",
@@ -7,11 +10,32 @@ summary_bp = Blueprint(
 )
 
 
-@summary_bp.route("/summary")
+
+@summary_bp.route(
+    "/summary",
+    methods=["POST"]
+)
 def summary():
+
+
+    data = request.json
+
+
+    content = data.get(
+        "content",
+        ""
+    )
+
+    print("总结收到内容:")
+    print(content)
+
+    result = generate_summary(
+        content
+    )
+
 
     return jsonify({
 
-        "message": "第二阶段AI总结"
+        "summary": result
 
     })

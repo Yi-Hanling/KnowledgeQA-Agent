@@ -1,7 +1,5 @@
 from openai import OpenAI
-
 from config import Config
-
 
 
 client = OpenAI(
@@ -11,7 +9,12 @@ client = OpenAI(
 
 
 
+# =========================
+# AI问答
+# =========================
+
 def ask_ai(question):
+
 
     response = client.chat.completions.create(
 
@@ -20,27 +23,18 @@ def ask_ai(question):
         messages=[
 
             {
-                "role": "system",
-                "content": """
+                "role":"system",
+                "content":
+                """
 你是KnowledgeHub智能知识助手。
 
-你的职责：
-1. 帮助用户学习和理解知识。
-2. 回答科学、技术、人文等领域的问题。
-3. 用清晰、准确、易懂的方式解释复杂概念。
-4. 如果用户的问题涉及知识库内容，应优先参考知识库提供的信息。
-5. 不确定的信息不要编造。
-
-回答要求：
-- 语言简洁清晰。
-- 适当使用例子帮助理解。
-- 面向学生和知识探索者。
+帮助用户学习和理解知识。
 """
             },
 
             {
-                "role": "user",
-                "content": question
+                "role":"user",
+                "content":question
             }
 
         ]
@@ -48,12 +42,50 @@ def ask_ai(question):
     )
 
 
-    answer = (
-        response
-        .choices[0]
-        .message
-        .content
+    return response.choices[0].message.content
+
+
+
+
+
+# =========================
+# AI总结
+# =========================
+
+def generate_summary(content):
+
+
+    response = client.chat.completions.create(
+
+        model="deepseek-chat",
+
+        messages=[
+
+            {
+                "role":"system",
+                "content":
+                """
+你是KnowledgeHub AI学习总结助手。
+
+请根据下面的学习内容生成总结。
+
+要求：
+1. 使用Markdown格式
+2. 提取核心知识点
+3. 分层整理
+4. 适合学生复习
+"""
+            },
+
+
+            {
+                "role":"user",
+                "content":content
+            }
+
+        ]
+
     )
 
 
-    return answer
+    return response.choices[0].message.content

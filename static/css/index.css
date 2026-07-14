@@ -6,531 +6,286 @@
 
 
 /* ================= 页面 ================= */
-
-
 body{
-
     background:#f8fafc;
-
 }
-
-
 
 /* ================= Hero ================= */
-
-
 .hero{
-
-
-    min-height:
-
-    calc(100vh - 115px);
-
-
-
+    min-height:calc(100vh - 115px);
     display:flex;
-
-
     align-items:center;
-
-
     justify-content:center;
-
-
-
-    background:
-
-
-    linear-gradient(
-
-        135deg,
-
-        #eef6ff,
-
-        #ffffff
-
-    );
-
-
-
     position:relative;
-
-
     overflow:hidden;
-
-
-
 }
 
-
-
-/* ================= 背景光圈 ================= */
-
-
-
-.hero::before{
-
-
-    content:"";
-
-
-    position:absolute;
-
-
-    width:520px;
-
-
-    height:520px;
-
-
-
-    background:#dbeafe;
-
-
-
-    border-radius:50%;
-
-
-
-    right:-180px;
-
-
-
-    top:-160px;
-
-
-
-    opacity:.7;
-
-
-
-    filter:blur(5px);
-
-
-
+/* ========== 流动高斯模糊泡泡背景 新增代码开始 ========== */
+:root {
+    /* 极致浅淡浅蓝色，低饱和度 */
+    --color-bg1: rgb(236, 245, 255);
+    --color-bg2: rgb(248, 252, 255);
+    --color1: 190, 220, 252;
+    --color2: 200, 228, 253;
+    --color3: 208, 233, 254;
+    --color4: 218, 238, 255;
+    --color5: 226, 242, 255;
+    --color-interactive: 140, 100, 255;
+    --circle-size: 80%;
+    --blending: hard-light;
 }
 
-
-
-
-.hero::after{
-
-
-    content:"";
-
-
-    position:absolute;
-
-
-    width:350px;
-
-
-    height:350px;
-
-
-
-    background:#bfdbfe;
-
-
-
-    border-radius:50%;
-
-
-
-    left:-120px;
-
-
-
-    bottom:-120px;
-
-
-
-    opacity:.4;
-
-
-
-    filter:blur(5px);
-
-
-
+.gradient-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, var(--color-bg1) 0%, var(--color-bg2) 100%);
+    overflow: hidden;
 }
 
+.gradient-bg svg {
+    position: fixed;
+    width: 0;
+    height: 0;
+}
+
+.gradients-container {
+    filter: url(#goo) blur(40px);
+    width: 100%;
+    height: 100%;
+}
+
+.g1 {
+    position: absolute;
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+    width: var(--circle-size);
+    height: var(--circle-size);
+    background: radial-gradient(
+        circle at center,
+        rgba(var(--color1), 0.8) 0,
+        rgba(var(--color1), 0) 50%
+    ) no-repeat;
+    mix-blend-mode: var(--blending);
+    transform-origin: center center;
+    animation: moveVertical 30s ease infinite;
+    opacity: 1;
+}
+
+.g2 {
+    position: absolute;
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+    width: var(--circle-size);
+    height: var(--circle-size);
+    background: radial-gradient(
+        circle at center,
+        rgba(var(--color2), 0.8) 0,
+        rgba(var(--color2), 0) 50%
+    ) no-repeat;
+    mix-blend-mode: var(--blending);
+    transform-origin: calc(50% - 400px);
+    animation: moveInCircle 20s reverse infinite;
+    opacity: 1;
+}
+
+.g3 {
+    position: absolute;
+    top: calc(50% - var(--circle-size) / 2 + 200px);
+    left: calc(50% - var(--circle-size) / 2 - 500px);
+    width: var(--circle-size);
+    height: var(--circle-size);
+    background: radial-gradient(
+        circle at center,
+        rgba(var(--color3), 0.8) 0,
+        rgba(var(--color3), 0) 50%
+    ) no-repeat;
+    mix-blend-mode: var(--blending);
+    transform-origin: calc(50% + 400px);
+    animation: moveInCircle 40s linear infinite;
+    opacity: 1;
+}
+
+.g4 {
+    position: absolute;
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+    width: var(--circle-size);
+    height: var(--circle-size);
+    background: radial-gradient(
+        circle at center,
+        rgba(var(--color4), 0.8) 0,
+        rgba(var(--color4), 0) 50%
+    ) no-repeat;
+    mix-blend-mode: var(--blending);
+    transform-origin: calc(50% - 200px);
+    animation: moveHorizontal 40s ease infinite;
+    opacity: 0.7;
+}
+
+.g5 {
+    position: absolute;
+    top: calc(50% - var(--circle-size));
+    left: calc(50% - var(--circle-size));
+    width: calc(var(--circle-size) * 2);
+    height: calc(var(--circle-size) * 2);
+    background: radial-gradient(
+        circle at center,
+        rgba(var(--color5), 0.8) 0,
+        rgba(var(--color5), 0) 50%
+    ) no-repeat;
+    mix-blend-mode: var(--blending);
+    transform-origin: calc(50% - 800px) calc(50% + 200px);
+    animation: moveInCircle 20s ease infinite;
+    opacity: 1;
+}
+
+@keyframes moveInCircle {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes moveVertical {
+    0% {
+        transform: translateY(-50%);
+    }
+    50% {
+        transform: translateY(50%);
+    }
+    100% {
+        transform: translateY(-50%);
+    }
+}
+
+@keyframes moveHorizontal {
+    0% {
+        transform: translateX(-50%) translateY(-10%);
+    }
+    50% {
+        transform: translateX(50%) translateY(10%);
+    }
+    100% {
+        transform: translateX(-50%) translateY(-10%);
+    }
+}
+/* ========== 流动高斯模糊泡泡背景 新增代码结束 ========== */
 
 
 /* ================= 内容 ================= */
-
-
 .hero-container{
-
-
     width:100%;
-
-
     display:flex;
-
-
     justify-content:center;
-
-
-
 }
-
-
 
 .hero-content{
-
-
     width:900px;
-
-
     max-width:90%;
-
-
-
     text-align:center;
-
-
-
     position:relative;
-
-
     z-index:2;
-
-
-
-    animation:
-
-    fadeIn .8s ease;
-
-
-
+    animation: fadeIn .8s ease;
 }
-
-
 
 /* ================= 标签 ================= */
-
-
-
 .hero-tag{
-
-
     display:inline-block;
-
-
-
-    padding:
-
-    8px 22px;
-
-
-
+    padding: 8px 22px;
     border-radius:30px;
-
-
-
     background:#dbeafe;
-
-
-
     color:#2563eb;
-
-
-
     font-size:14px;
-
-
-
     font-weight:600;
-
-
-
     margin-bottom:30px;
-
-
-
 }
-
-
-
 
 /* ================= 标题 ================= */
-
-
 .hero h1{
-
-
     font-size:76px;
-
-
-
     font-weight:800;
-
-
-
     letter-spacing:3px;
-
-
-
     color:#111827;
-
-
-
     margin-bottom:30px;
-
-
-
 }
-
-
 
 .hero h1 span{
-
-
     color:#2563eb;
-
-
-
 }
-
-
-
 
 /* ================= 描述 ================= */
-
-
 .hero p{
-
-
     font-size:20px;
-
-
-
     line-height:1.9;
-
-
-
     color:#64748b;
-
-
-
     margin-bottom:0;
-
-
-
 }
-
-
-
-
 
 /* ================= 按钮 ================= */
-
-
 .hero-buttons{
-
-
     margin-top:45px;
-
-
-
     display:flex;
-
-
-
     justify-content:center;
-
-
-
 }
-
-
-
 
 .hero-primary{
-
-
     display:inline-block;
-
-
-
-    padding:
-
-    16px 60px;
-
-
-
+    padding:16px 60px;
     background:#2563eb;
-
-
-
     color:white;
-
-
-
     border-radius:14px;
-
-
-
     font-size:18px;
-
-
-
     font-weight:600;
-
-
-
     text-decoration:none;
-
-
-
-    box-shadow:
-
-
-    0 15px 35px
-
-    rgba(37,99,235,.3);
-
-
-
+    box-shadow:0 15px 35px rgba(37,99,235,.3);
     transition:.3s;
-
-
-
 }
-
-
 
 .hero-primary:hover{
-
-
     background:#1d4ed8;
-
-
-
     color:white;
-
-
-
-    transform:
-
-    translateY(-5px);
-
-
-
-    box-shadow:
-
-
-    0 20px 40px
-
-    rgba(37,99,235,.35);
-
-
-
+    transform:translateY(-5px);
+    box-shadow:0 20px 40px rgba(37,99,235,.35);
 }
-
-
 
 /* ================= 动画 ================= */
-
-
 @keyframes fadeIn{
-
-
     from{
-
-
         opacity:0;
-
-
-        transform:
-
-        translateY(30px);
-
-
-
+        transform:translateY(30px);
     }
-
-
     to{
-
-
         opacity:1;
-
-
-        transform:
-
-        translateY(0);
-
-
-
+        transform:translateY(0);
     }
-
-
 }
-
-
-
 
 /* ================= 响应式 ================= */
-
-
 @media(max-width:900px){
-
-
     .hero h1{
-
-
         font-size:55px;
-
-
-
     }
-
-
 }
 
-
-
 @media(max-width:600px){
-
-
     .hero h1{
-
-
         font-size:42px;
-
-
-
     }
-
-
-
     .hero p{
-
-
         font-size:16px;
-
-
-
     }
-
-
-
     .hero-primary{
-
-
         width:80%;
-
-
         text-align:center;
-
-
-
     }
-
-
-
 }
 
 .hero-logo {

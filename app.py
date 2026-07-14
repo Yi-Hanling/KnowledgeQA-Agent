@@ -4,6 +4,10 @@ from config import Config
 
 from routes import register_routes
 
+from database.db import db
+
+import models
+
 
 
 def create_app():
@@ -15,8 +19,18 @@ def create_app():
     app.config.from_object(Config)
 
 
-    # 注册所有蓝图
+    # 初始化数据库
+    db.init_app(app)
+
+
+    # 注册蓝图
     register_routes(app)
+
+
+    # 创建数据库表
+    with app.app_context():
+
+        db.create_all()
 
 
     return app

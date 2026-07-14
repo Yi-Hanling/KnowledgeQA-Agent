@@ -2,26 +2,25 @@ from database.db import db
 from datetime import datetime
 
 
-class Favorite(db.Model):
+class Summary(db.Model):
 
-    __tablename__ = "favorite"
-
+    __tablename__ = "summary"
 
     id = db.Column(
         db.Integer,
         primary_key=True
     )
 
-
-    user_id = db.Column(
-        db.Integer
+    category_id = db.Column(
+        db.String(50),
+        nullable=False,
+        unique=True
     )
 
-
-    knowledge_id = db.Column(
-        db.Integer
+    content = db.Column(
+        db.Text,
+        nullable=False
     )
-
 
     created_at = db.Column(
         db.DateTime,

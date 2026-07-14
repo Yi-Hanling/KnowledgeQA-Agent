@@ -6,6 +6,7 @@ ai.js
 1. AI聊天
 2. 调用Flask API
 3. Markdown解析
+4. 加载聊天历史
 */
 
 
@@ -33,17 +34,27 @@ document.addEventListener(
 
 
 
-        // 点击发送
+       // 页面打开加载历史聊天
+        loadHistory();
 
-        sendButton.onclick = sendMessage;
+// 分类切换后重新加载聊天
+   window.addEventListener(
+    "categoryChanged",
+    function(){
 
+
+        loadHistory();
+
+    }
+);
+// 点击发送
+sendButton.onclick = sendMessage;
 
 
         // Enter发送
         questionInput.addEventListener(
             "keydown",
             function(e){
-
 
                 if(
                     e.key === "Enter"
@@ -59,6 +70,116 @@ document.addEventListener(
 
             }
         );
+
+
+
+        // 加载聊天记录
+        async function loadHistory(){
+
+            try{
+
+                chatHistory.innerHTML = "";
+
+            const categoryId =
+    localStorage.getItem(
+        "active_category_id"
+    );
+const response =
+    await fetch(
+        "/api/chat/history?category_id=" +
+        categoryId
+    );
+
+const data =
+    await response.json();
+if(data.length === 0){
+
+    const categoryName =
+    document.querySelector(
+        ".category-item.active .category-name"
+    )?.innerText || "当前分类";
+
+chatHistory.innerHTML = `
+
+<div class="ai-message">
+
+    👋 欢迎来到 <strong>${categoryName}</strong>。
+
+    <br><br>
+
+    当前分类暂无聊天记录。
+
+</div>
+
+`;
+
+    return;
+
+}
+
+                data.forEach(
+                    message=>{
+
+
+                        let content =
+                            message.content;
+
+
+
+                        // AI消息Markdown解析
+                        if(
+                            message.role === "assistant"
+                        ){
+
+                            content =
+                                marked.parse(content);
+
+                        }
+
+
+
+                        const className =
+                            message.role === "user"
+                            ?
+                            "user-message"
+                            :
+                            "ai-message";
+
+
+
+                        chatHistory.innerHTML += `
+
+                        <div class="${className}">
+
+                            ${content}
+
+                        </div>
+
+                        `;
+
+
+                    }
+                );
+
+
+
+                chatHistory.scrollTop =
+                    chatHistory.scrollHeight;
+
+
+
+            }
+            catch(error){
+
+                console.error(
+                    "加载聊天历史失败",
+                    error
+                );
+
+            }
+
+
+        }
 
 
 
@@ -79,33 +200,27 @@ document.addEventListener(
 
 
 
-            // 显示用户问题
-
-            chatHistory.innerHTML += `
-
-            <div class="user-message">
-
-                ${question}
-
-            </div>
-
-            `;
-
-
-
-            questionInput.value="";
+            questionInput.value = "";
 
 
 
             // AI等待
 
-            const loading = document.createElement("div");
+            const loading =
+                document.createElement("div");
 
-            loading.className="ai-message";
 
-            loading.innerHTML="AI正在思考...";
+            loading.className =
+                "ai-message";
 
-            chatHistory.appendChild(loading);
+
+            loading.innerHTML =
+                "AI正在思考...";
+
+
+            chatHistory.appendChild(
+                loading
+            );
 
 
 
@@ -114,78 +229,58 @@ document.addEventListener(
 
 
 
-
             try{
 
 
-                const response =
-                    await fetch(
-                        "/api/chat",
-                        {
+const categoryId =
+    localStorage.getItem(
+        "active_category_id"
+    );
 
-                            method:"POST",
+const response =
+    await fetch(
+        "/api/chat",
+        {
 
-                            headers:{
+            method:"POST",
 
-                                "Content-Type":
-                                "application/json"
+            headers:{
 
-                            },
+                "Content-Type":
+                "application/json"
 
+            },
 
-                            body:JSON.stringify({
+            body:JSON.stringify({
 
-                                question:question
+                question:question,
 
-                            })
+                category_id:categoryId
 
-                        }
+            })
+
+        }
+    );
+
+                if(!response.ok){
+
+                    throw new Error(
+                        "请求失败"
                     );
 
+                }
 
 
-                const data =
-                    await response.json();
+                await response.json();
 
-
-
-                // 删除等待
 
                 loading.remove();
 
 
-
-                const answer =
-                    data.answer;
-
-
-
-                // Markdown解析
-
-                const htmlAnswer =
-                    marked.parse(answer);
-
-
-
-
-                chatHistory.innerHTML += `
-
-                <div class="ai-message">
-
-                    ${htmlAnswer}
-
-                </div>
-
-                `;
-
-
-
-                chatHistory.scrollTop =
-                    chatHistory.scrollHeight;
+                await loadHistory();
 
 
             }
-
 
 
             catch(error){
@@ -206,7 +301,9 @@ document.addEventListener(
                 `;
 
 
-                console.error(error);
+                console.error(
+                    error
+                );
 
 
             }

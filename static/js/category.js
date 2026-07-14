@@ -31,13 +31,6 @@ document.addEventListener(
 // DOM
 // =========================
 
-const summaryBox =
-    document.getElementById("summaryBox");
-
-
-const chatHistory =
-    document.getElementById("chatHistory");
-
 
 const backHome =
     document.getElementById("backHome");
@@ -229,25 +222,21 @@ function renderCategories(){
         // 点击分类
         // =====================
 
+div.onclick=function(){
 
-        div.onclick=function(){
+    console.log("点击分类", item.id);
 
+    setActiveId(item.id);
 
-            setActiveId(
-                item.id
-            );
+    renderCategories();
 
+    console.log("发送categoryChanged");
 
-            renderCategories();
+    window.dispatchEvent(
+        new Event("categoryChanged")
+    );
 
-
-            loadCategoryChat(
-                item.name
-            );
-
-
-        };
-
+};
 
 
 
@@ -282,33 +271,21 @@ function renderCategories(){
 
 
 
-            saveCategories(
-                list
-            );
+saveCategories(list);
 
+if(getActiveId()==item.id){
 
+    localStorage.removeItem(
+        "active_category_id"
+    );
 
-            renderCategories();
+}
 
+renderCategories();
 
-
-            if(chatHistory){
-
-                chatHistory.innerHTML = `
-
-
-                <div class="ai-message">
-
-
-                请选择分类开始学习。
-
-
-                </div>
-
-
-                `;
-
-            }
+window.dispatchEvent(
+    new Event("categoryChanged")
+);
 
 
         };
@@ -492,60 +469,6 @@ window.triggerAddCategory=function(){
 
 
 };
-
-
-
-
-
-// =========================
-// 分类聊天区域
-// =========================
-
-
-function loadCategoryChat(name){
-
-
-    if(!chatHistory){
-
-        return;
-
-    }
-
-
-
-    chatHistory.innerHTML = `
-
-
-    <div class="ai-message">
-
-
-    👋 欢迎进入
-
-
-    <strong>
-
-    ${name}
-
-    </strong>
-
-
-    知识库。
-
-
-    <br><br>
-
-
-    你可以直接向 AI 提问。
-
-
-    </div>
-
-
-    `;
-
-
-}
-
 
 
 

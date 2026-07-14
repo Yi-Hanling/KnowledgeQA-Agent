@@ -6,13 +6,18 @@ summary.js
 1. 点击生成总结按钮
 2. 获取当前聊天内容
 3. 请求 Flask /api/summary
-4. 显示 AI 总结
+4. 保存 AI 总结
+5. 刷新页面恢复总结
 */
+
+
+console.log("summary.js启动");
 
 
 document.addEventListener(
     "DOMContentLoaded",
     function(){
+
 
 
         const summaryBtn =
@@ -26,11 +31,9 @@ document.addEventListener(
                 "summaryBox"
             );
 
+console.log("summaryBox:", summaryBox);
 
-
-        // 页面没有总结区域直接退出
-
-        if(!summaryBtn || !summaryBox){
+        if(!summaryBox){
 
             return;
 
@@ -38,59 +41,71 @@ document.addEventListener(
 
 
 
-        summaryBtn.onclick = async function(){
 
 
-            // 提示生成中
-
-            summaryBox.innerHTML = `
-
-            <p>
-            🤖 AI正在生成总结，请稍候...
-            </p>
-
-            `;
+        // =========================
+        // 分类切换重新读取总结
+        // =========================
 
 
+        window.addEventListener(
+            "categoryChanged",
+            function(){
 
-            /*
-                获取聊天内容
+                console.log(
+                    "分类改变，重新加载总结"
+                );
 
-                注意：
-                这里先读取页面聊天区域
+                loadSummary();
 
-                后续可以改成读取 ai.js 保存的历史记录
-            */
+            }
+        );
 
-            const chatHistory =
-                document.getElementById(
-                    "chatHistory"
+
+
+
+
+        // =========================
+        // 页面加载读取总结
+        // =========================
+
+
+        loadSummary();
+
+
+
+
+
+
+        // =========================
+        // 获取数据库中的总结
+        // =========================
+
+
+        async function loadSummary(){
+
+
+            const categoryId =
+                localStorage.getItem(
+                    "active_category_id"
                 );
 
 
 
-            let content = "";
+            console.log(
+                "当前分类ID:",
+                categoryId
+            );
 
 
 
-            if(chatHistory){
-
-
-                content =
-                    chatHistory.innerText;
-
-
-            }
-
-
-
-            if(!content.trim()){
+            if(!categoryId){
 
 
                 summaryBox.innerHTML = `
 
                 <p>
-                当前没有聊天内容，无法生成总结。
+                请选择分类查看总结。
                 </p>
 
                 `;
@@ -102,35 +117,15 @@ document.addEventListener(
 
 
 
-
             try{
 
 
                 const response =
                     await fetch(
-                        "/api/summary",
-                        {
-
-                            method:"POST",
-
-
-                            headers:{
-
-                                "Content-Type":
-                                "application/json"
-
-                            },
-
-
-                            body:JSON.stringify({
-
-                                content:content
-
-                            })
-
-                        }
+                        "/api/summary?category_id="
+                        +
+                        categoryId
                     );
-
 
 
 
@@ -139,11 +134,17 @@ document.addEventListener(
 
 
 
+                console.log(
+    "数据库返回总结:",
+    JSON.stringify(data)
+);
+
+
+
 
                 if(data.summary){
 
 
-                    // Markdown解析
 
                     if(typeof marked !== "undefined"){
 
@@ -172,10 +173,11 @@ document.addEventListener(
                     summaryBox.innerHTML = `
 
                     <p>
-                    总结生成失败。
+                    当前分类暂无总结。
                     </p>
 
                     `;
+
 
                 }
 
@@ -186,24 +188,234 @@ document.addEventListener(
 
 
                 console.error(
+                    "加载总结失败",
                     error
                 );
-
-
-                summaryBox.innerHTML = `
-
-                <p>
-                AI总结请求失败。
-                </p>
-
-                `;
 
 
             }
 
 
+        }
 
-        };
+
+
+
+
+
+
+
+
+        // =========================
+        // 点击生成总结
+        // =========================
+
+
+        if(summaryBtn){
+
+
+            summaryBtn.onclick = async function(){
+
+
+
+                summaryBox.innerHTML = `
+
+                <p>
+                🤖 AI正在生成总结，请稍候...
+                </p>
+
+                `;
+
+
+
+
+                const chatHistory =
+                    document.getElementById(
+                        "chatHistory"
+                    );
+
+
+
+                let content = "";
+
+
+
+                if(chatHistory){
+
+
+                    content =
+                        chatHistory.innerText;
+
+
+                }
+
+
+
+
+
+                if(!content.trim()){
+
+
+                    summaryBox.innerHTML = `
+
+                    <p>
+                    当前没有聊天内容，无法生成总结。
+                    </p>
+
+                    `;
+
+
+                    return;
+
+                }
+
+
+
+
+
+
+                const categoryId =
+                    localStorage.getItem(
+                        "active_category_id"
+                    );
+
+
+
+
+
+                try{
+
+
+                    const response =
+                        await fetch(
+                            "/api/summary",
+                            {
+
+
+                                method:"POST",
+
+
+
+                                headers:{
+
+
+                                    "Content-Type":
+                                    "application/json"
+
+
+                                },
+
+
+
+                                body:JSON.stringify({
+
+
+                                    content:content,
+
+
+                                    category_id:categoryId
+
+
+                                })
+
+
+                            }
+                        );
+
+
+
+
+
+
+                    const data =
+                        await response.json();
+
+
+
+
+
+                    console.log(
+                        "生成总结返回:",
+                        data
+                    );
+
+
+
+                    console.log(
+                        "summaryBox:",
+                        summaryBox
+                    );
+
+
+
+
+
+
+                    if(data.summary){
+
+
+
+                        if(typeof marked !== "undefined"){
+
+
+
+                            summaryBox.innerHTML =
+                                marked.parse(
+                                    data.summary
+                                );
+
+
+
+                        }
+                        else{
+
+
+                            summaryBox.innerText =
+                                data.summary;
+
+
+                        }
+
+
+                    }
+
+
+
+
+
+                }
+                catch(error){
+
+
+
+                    console.error(
+                        error
+                    );
+
+
+
+                    summaryBox.innerHTML = `
+
+                    <p>
+                    AI总结请求失败。
+                    </p>
+
+                    `;
+
+
+
+                }
+
+
+
+
+
+            };
+
+
+
+        }
+
 
 
     }

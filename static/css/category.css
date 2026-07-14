@@ -246,7 +246,7 @@
     background: #d32f2f;
 }
 
-/* ==========【新增】聊天消息气泡自适应 ========== */
+/* ==========聊天消息气泡自适应 ========== */
 #chatHistory{
     padding:24px;
     overflow-y:auto;

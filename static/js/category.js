@@ -58,17 +58,10 @@ if(backHome){
 
 function getCategories(){
 
-    const data =
-        localStorage.getItem(
-            "knowledge_categories"
-        );
+    const data = localStorage.getItem("knowledge_categories");
 
 
-    return data
-        ?
-        JSON.parse(data)
-        :
-        [];
+    return data ? JSON.parse(data) : [];
 
 }
 
@@ -238,9 +231,6 @@ div.onclick=function(){
 
 };
 
-
-
-
         // =====================
         // 删除
         // =====================
@@ -289,12 +279,6 @@ window.dispatchEvent(
 
 
         };
-
-
-
-
-
-
 
         // =====================
         // 重命名

@@ -198,7 +198,16 @@ chatHistory.innerHTML = `
 
             }
 
+// 立即显示用户消息
+chatHistory.innerHTML += `
 
+<div class="user-message">
+
+    ${question}
+
+</div>
+
+`;
 
             questionInput.value = "";
 

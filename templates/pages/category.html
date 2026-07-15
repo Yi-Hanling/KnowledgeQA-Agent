@@ -1,38 +1,25 @@
 {% extends "layout/base.html" %}
 
 {% block title %}
-
 {{ category_name }} - KnowledgeHub
-
 {% endblock %}
 
 {% block css %}
-
 <link rel="stylesheet"
       href="{{ url_for('static',filename='css/category.css') }}">
-
 {% endblock %}
 
 {% block content %}
 
 <div class="container">
-
     <!-- 左侧 -->
-
     {% include "components/sidebar.html" %}
-
     <!-- 中间聊天 -->
-
     {% include "components/article_card.html" %}
-
     <!-- 右侧 -->
-
     <aside class="insight-panel">
-
         {% include "components/summary_panel.html" %}
-
     </aside>
-
 </div>
 
 <input
@@ -40,15 +27,34 @@
         id="categoryName"
         value="{{ category_name }}">
 
+<!-- ========== 【输入弹窗】新增/重命名分类 ========== -->
+<div id="inputModal" class="confirm-modal" style="display: none;">
+    <div class="confirm-modal-box">
+        <p class="confirm-modal-text" id="modalTip">请输入分类名称:</p >
+        <input type="text" id="modalInput" style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:6px;margin-bottom:20px;">
+        <div class="confirm-modal-actions">
+            <button class="confirm-modal-cancel" id="modalCancel">取消</button>
+            <button class="confirm-modal-ok" id="modalOk">确定</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 【确认弹窗】删除二次确认 ========== -->
+<div id="confirmModal" class="confirm-modal" style="display: none;">
+    <div class="confirm-modal-box">
+        <p class="confirm-modal-text" id="confirmTip">确定要删除该分类吗？</p >
+        <div class="confirm-modal-actions">
+            <button class="confirm-modal-cancel" id="confirmCancel">取消</button>
+            <button class="confirm-modal-ok" id="confirmOk">确认删除</button>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block js %}
-
 <script src="{{ url_for('static',filename='js/category.js') }}"></script>
-
 <script src="{{ url_for('static',filename='js/ai.js') }}"></script>
-
 <script src="{{ url_for('static', filename='js/summary.js') }}">
 </script>
-
 {% endblock %}

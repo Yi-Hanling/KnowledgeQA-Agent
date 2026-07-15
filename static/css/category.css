@@ -90,88 +90,91 @@
     justify-content: space-between;
     align-items: center;
     gap:10px;
+    position: relative;
 }
 .category-item.active{
     background:#2563eb;
     color:#fff;
+    font-weight: bold;
 }
 .category-item:not(.active):hover{
     background:#f1f5f9;
 }
-/* 分类操作按钮区域 */
 
-.category-actions{
+/* 三点更多按钮 */
+.category-more-btn {
+    font-size: 14px;
+    width: 32px;
+    min-width: 32px !important;
+    max-width: 32px !important;
+    height: 32px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: none;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    box-sizing: border-box;
+    border-radius: 12px;
+}
+.category-item:hover .category-more-btn{
+    display: inline-flex;
+}
 
+/* ========== 选中条目 active 样式 ========== */
+.category-item.active:hover .category-more-btn{
+    background-color: #2563eb;
+    color: #ffffff;
+}
+.category-item.active:hover .category-more-btn:hover{
+    background-color: #ffffff;
+    color: #000000;
+}
+
+/* ========== 未选中条目 not active 样式 ========== */
+.category-item:not(.active):hover .category-more-btn{
+    background: transparent;
+    color: #111111;
+}
+.category-item:not(.active):hover .category-more-btn:hover{
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+/* 下拉菜单容器 */
+.category-dropdown-menu{
+    position:absolute;
+    right:10px;
+    top:42px;
+    background:#ffffff;
+    border-radius:8px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+    z-index:99;
+    min-width:90px;
+    overflow:hidden;
     display:none;
-
-    flex-direction:row;
-
-    align-items:center;
-
-    gap:6px;
-
 }
-
-
-/* 鼠标悬停分类显示 */
-
-.category-item:hover .category-actions{
-
-    display:flex;
-
+.category-dropdown-menu.show{
+    display:block;
 }
-
-
-
-/* 按钮统一样式 */
-
-.category-actions button{
-
-    font-size:11px;
-
-    padding:3px 10px;
-
-    border:none;
-
-    border-radius:4px;
-
+/* 下拉菜单项 */
+.category-menu-item{
+    padding:9px 16px;
     cursor:pointer;
-
-    white-space:nowrap;
-
+    font-size:14px;
 }
-
-
-/* 删除按钮 */
-
-.category-delete-btn{
-
-    background:#f5f5f5;
-
-    color:#e53935;
-
-}
-
-
-
-/* 重命名按钮 */
-
-.category-edit-btn{
-
-    background:#f5f5f5;
-
+.category-menu-item.rename{
     color:#2563eb;
-
 }
-
-
-
-.category-actions button:hover{
-
-    opacity:0.8;
-
+.category-menu-item.delete{
+    color:#dc2626;
 }
-
+.category-menu-item:hover{
+    background:#f3f4f6;
+}
 
 /* ===== 原地编辑输入框样式 ===== */
 .category-item input {
@@ -264,7 +267,7 @@
     word-wrap: break-word;
 }
 .ai-message{
-    max-width: 80%;
+    max-width: 55%;
     width: fit-content;
     margin-right: auto;
     background-color: #f3f4f6;

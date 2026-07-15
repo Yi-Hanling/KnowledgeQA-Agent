@@ -267,8 +267,8 @@
     word-wrap: break-word;
 }
 .ai-message{
-    max-width: 55%;
-    width: fit-content;
+    max-width: 85%;
+    width: auto;
     margin-right: auto;
     background-color: #f3f4f6;
     color: #1f2937;

@@ -86,11 +86,28 @@
     border-radius:8px;
     margin-bottom:6px;
     cursor:pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
     gap:10px;
-    position: relative;
+
+    overflow:visible;
+    position:relative;
+}
+.category-name{
+
+    flex:1;
+
+    min-width:0;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+
 }
 .category-item.active{
     background:#2563eb;
